@@ -1,39 +1,74 @@
 package tests;
 
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.SelenideElement;  // Исправлено: codeborne
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pages.TextBoxPage;
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.executeJavaScript;
-import static testdata.StudentRegistrationTestData.*;
+import utils.RandomUtils;
+
+import static com.codeborne.selenide.Condition.*;  // Исправлено: codeborne
+import static com.codeborne.selenide.Selenide.$;  // Исправлено: codeborne
+import static com.codeborne.selenide.Selenide.executeJavaScript;  // Исправлено: codeborne
 
 public class TestStudentRegistrationForm extends TestBase {
 
     private final TextBoxPage textBoxPage = new TextBoxPage();
 
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String gender;
+    private String mobileNumber;
+    private String day;
+    private String month;
+    private String year;
+    private String subject;
+    private String hobby;
+    private String pictureName;
+    private String address;
+    private String state;
+    private String city;
+
+    @BeforeEach
+    void setUpTestData() {
+        firstName = RandomUtils.getRandomFirstName();
+        lastName = RandomUtils.getRandomLastName();
+        email = RandomUtils.getRandomEmail(firstName, lastName);
+        gender = RandomUtils.getRandomGender();
+        mobileNumber = RandomUtils.getRandomMobileNumber();
+        day = RandomUtils.getRandomDay();
+        month = RandomUtils.getRandomMonth();
+        year = RandomUtils.getRandomYear();
+        subject = RandomUtils.getRandomSubject();
+        hobby = RandomUtils.getRandomHobby();
+        pictureName = "testbest.png";
+        address = RandomUtils.getRandomAddress();
+        state = RandomUtils.getRandomState();
+        city = RandomUtils.getRandomCity(state);
+    }
+
     @Test
     void successfulFillFormTest() {
         textBoxPage
                 .openPage()
-                .fillForm(FIRST_NAME, LAST_NAME, EMAIL, GENDER, MOBILE_NUMBER,
-                        DAY, MONTH, YEAR, SUBJECT, HOBBY, PICTURE_NAME,
-                        ADDRESS, STATE, CITY)
+                .fillForm(firstName, lastName, email, gender, mobileNumber,
+                        day, month, year, subject, hobby, pictureName,
+                        address, state, city)
                 .submitForm();
 
         textBoxPage.getModal().verifyModalVisible();
 
         textBoxPage.getTable()
-                .verifyStudentName(FIRST_NAME, LAST_NAME)
-                .verifyStudentEmail(EMAIL)
-                .verifyGender(GENDER)
-                .verifyMobile(MOBILE_NUMBER)
-                .verifyDateOfBirth(DAY, MONTH, YEAR)
-                .verifySubjects(SUBJECT)
-                .verifyHobbies(HOBBY)
-                .verifyPicture(PICTURE_NAME)
-                .verifyAddress(ADDRESS)
-                .verifyStateAndCity(STATE, CITY);
+                .verifyStudentName(firstName, lastName)
+                .verifyStudentEmail(email)
+                .verifyGender(gender)
+                .verifyMobile(mobileNumber)
+                .verifyDateOfBirth(day, month, year)
+                .verifySubjects(subject)
+                .verifyHobbies(hobby)
+                .verifyPicture(pictureName)
+                .verifyAddress(address)
+                .verifyStateAndCity(state, city);
 
         textBoxPage.getModal().closeModal();
     }
@@ -42,16 +77,16 @@ public class TestStudentRegistrationForm extends TestBase {
     void successfulMandatoryFieldsTest() {
         textBoxPage
                 .openPage()
-                .fillMandatoryFields(FIRST_NAME, LAST_NAME, EMAIL, GENDER, MOBILE_NUMBER)
+                .fillMandatoryFields(firstName, lastName, email, gender, mobileNumber)
                 .submitForm();
 
         textBoxPage.getModal().verifyModalVisible();
 
         textBoxPage.getTable()
-                .verifyStudentName(FIRST_NAME, LAST_NAME)
-                .verifyStudentEmail(EMAIL)
-                .verifyGender(GENDER)
-                .verifyMobile(MOBILE_NUMBER);
+                .verifyStudentName(firstName, lastName)
+                .verifyStudentEmail(email)
+                .verifyGender(gender)
+                .verifyMobile(mobileNumber);
 
         textBoxPage.getModal().closeModal();
     }
@@ -60,10 +95,10 @@ public class TestStudentRegistrationForm extends TestBase {
     void negativeTestWhenFirstNameIsEmpty() {
         textBoxPage
                 .openPage()
-                .setLastName(LAST_NAME)
-                .setEmail(EMAIL)
-                .setGender(GENDER)
-                .setMobile(MOBILE_NUMBER)
+                .setLastName(lastName)
+                .setEmail(email)
+                .setGender(gender)
+                .setMobile(mobileNumber)
                 .scrollToSubmit()
                 .submitForm();
 
@@ -80,10 +115,10 @@ public class TestStudentRegistrationForm extends TestBase {
     void negativeTestWhenLastNameIsEmpty() {
         textBoxPage
                 .openPage()
-                .setFirstName(FIRST_NAME)
-                .setEmail(EMAIL)
-                .setGender(GENDER)
-                .setMobile(MOBILE_NUMBER)
+                .setFirstName(firstName)
+                .setEmail(email)
+                .setGender(gender)
+                .setMobile(mobileNumber)
                 .scrollToSubmit()
                 .submitForm();
 
@@ -100,10 +135,10 @@ public class TestStudentRegistrationForm extends TestBase {
     void negativeTestWhenMobileIsEmpty() {
         textBoxPage
                 .openPage()
-                .setFirstName(FIRST_NAME)
-                .setLastName(LAST_NAME)
-                .setEmail(EMAIL)
-                .setGender(GENDER)
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setEmail(email)
+                .setGender(gender)
                 .scrollToSubmit()
                 .submitForm();
 
@@ -120,16 +155,15 @@ public class TestStudentRegistrationForm extends TestBase {
     void negativeTestWhenGenderIsEmpty() {
         textBoxPage
                 .openPage()
-                .setFirstName(FIRST_NAME)
-                .setLastName(LAST_NAME)
-                .setEmail(EMAIL)
-                .setMobile(MOBILE_NUMBER)
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setEmail(email)
+                .setMobile(mobileNumber)
                 .scrollToSubmit()
                 .submitForm();
 
         textBoxPage.getModal().verifyModalNotVisible();
 
-        // Проверяем, что ни одна радиокнопка не выбрана
         $("#gender-radio-1").shouldNotBe(checked);
         $("#gender-radio-2").shouldNotBe(checked);
         $("#gender-radio-3").shouldNotBe(checked);

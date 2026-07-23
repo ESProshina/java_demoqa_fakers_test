@@ -1,88 +1,96 @@
 package pages;
 
-import pages.components.CalendarComponent;
-import pages.components.ModalComponent;
-import pages.components.StateCityComponent;
-import pages.components.TableComponent;
+import com.codeborne.selenide.SelenideElement;
+import pages.components.*;
+
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 public class TextBoxPage {
 
+    // ============ ПОЛЯ ДЛЯ PRACTICE FORM (Регистрация студента) ============
+    private final SelenideElement firstNameInput = $("#firstName");
+    private final SelenideElement lastNameInput = $("#lastName");
+    private final SelenideElement emailInput = $("#userEmail");
+    private final SelenideElement mobileInput = $("#userNumber");
+    private final SelenideElement dateOfBirthInput = $("#dateOfBirthInput");
+    private final SelenideElement subjectsInput = $("#subjectsInput");
+    private final SelenideElement addressInput = $("#currentAddress");
+    private final SelenideElement stateInput = $("#state");
+    private final SelenideElement cityInput = $("#city");
+    private final SelenideElement submitButton = $("#submit");
+    private final SelenideElement pictureInput = $("#uploadPicture");
+
+    // ============ ПОЛЯ ДЛЯ TEXT BOX ФОРМЫ ============
+    private final SelenideElement fullNameInput = $("#userName");
+    private final SelenideElement currentAddressInput = $("#currentAddress");
+    private final SelenideElement permanentAddressInput = $("#permanentAddress");
+    private final SelenideElement textBoxSubmitButton = $("#submit");
+
+    // ============ КОМПОНЕНТЫ ============
     private final CalendarComponent calendar = new CalendarComponent();
     private final ModalComponent modal = new ModalComponent();
     private final StateCityComponent stateCity = new StateCityComponent();
     private final TableComponent table = new TableComponent();
 
-
-    private final String firstNameField = "#firstName";
-    private final String lastNameField = "#lastName";
-    private final String emailField = "#userEmail";
-    private final String genderWrapper = "#genterWrapper";
-    private final String mobileField = "#userNumber";
-    private final String dateOfBirthInput = "#dateOfBirthInput";
-    private final String subjectsInput = "#subjectsInput";
-    private final String hobbiesWrapper = "#hobbiesWrapper";
-    private final String uploadPicture = "#uploadPicture";
-    private final String addressField = "#currentAddress";
-    private final String submitButton = "#submit";
-    private final String stateField = "#state";
-    private final String cityField = "#city";
+    // ============ МЕТОДЫ ДЛЯ PRACTICE FORM (Регистрация студента) ============
 
     public TextBoxPage openPage() {
-        open("/automation-practice-form");
+        open("https://demoqa.com/automation-practice-form");
         return this;
     }
 
     public TextBoxPage setFirstName(String firstName) {
-        $(firstNameField).setValue(firstName);
+        firstNameInput.setValue(firstName);
         return this;
     }
 
     public TextBoxPage setLastName(String lastName) {
-        $(lastNameField).setValue(lastName);
+        lastNameInput.setValue(lastName);
         return this;
     }
 
     public TextBoxPage setEmail(String email) {
-        $(emailField).setValue(email);
+        emailInput.setValue(email);
         return this;
     }
 
     public TextBoxPage setGender(String gender) {
-        $(genderWrapper).find(byText(gender)).click();
+        $(byText(gender)).click();
         return this;
     }
 
     public TextBoxPage setMobile(String mobile) {
-        $(mobileField).setValue(mobile);
+        mobileInput.setValue(mobile);
         return this;
     }
 
     public TextBoxPage setDateOfBirth(String day, String month, String year) {
-        $(dateOfBirthInput).click();
         calendar.setDate(day, month, year);
         return this;
     }
 
     public TextBoxPage setSubject(String subject) {
-        $(subjectsInput).setValue(subject).pressEnter();
+        subjectsInput.setValue(subject).pressEnter();
         return this;
     }
 
     public TextBoxPage setHobby(String hobby) {
-        $(hobbiesWrapper).find(byText(hobby)).click();
+        $(byText(hobby)).click();
         return this;
     }
 
     public TextBoxPage uploadPicture(String pictureName) {
-        $(uploadPicture).uploadFromClasspath(pictureName);
+        pictureInput.uploadFromClasspath(pictureName);
         return this;
     }
 
     public TextBoxPage setAddress(String address) {
-        $(addressField).setValue(address);
+        addressInput.setValue(address);
         return this;
     }
 
@@ -92,21 +100,21 @@ public class TextBoxPage {
     }
 
     public TextBoxPage submitForm() {
-        $(submitButton).click();
+        submitButton.click();
         return this;
     }
 
     public TextBoxPage scrollToSubmit() {
-        $(submitButton).scrollTo();
+        submitButton.scrollTo();
         return this;
     }
 
     public TextBoxPage fillForm(String firstName, String lastName, String email,
                                 String gender, String mobile, String day,
                                 String month, String year, String subject,
-                                String hobby, String picture, String address,
+                                String hobby, String pictureName, String address,
                                 String state, String city) {
-        return setFirstName(firstName)
+        setFirstName(firstName)
                 .setLastName(lastName)
                 .setEmail(email)
                 .setGender(gender)
@@ -114,18 +122,20 @@ public class TextBoxPage {
                 .setDateOfBirth(day, month, year)
                 .setSubject(subject)
                 .setHobby(hobby)
-                .uploadPicture(picture)
+                .uploadPicture(pictureName)
                 .setAddress(address)
                 .setStateAndCity(state, city);
+        return this;
     }
 
     public TextBoxPage fillMandatoryFields(String firstName, String lastName,
                                            String email, String gender, String mobile) {
-        return setFirstName(firstName)
+        setFirstName(firstName)
                 .setLastName(lastName)
                 .setEmail(email)
                 .setGender(gender)
                 .setMobile(mobile);
+        return this;
     }
 
     public ModalComponent getModal() {
@@ -134,5 +144,54 @@ public class TextBoxPage {
 
     public TableComponent getTable() {
         return table;
+    }
+
+    // ============ МЕТОДЫ ДЛЯ TEXT BOX ФОРМЫ ============
+
+    // ОТКРЫТЬ СТРАНИЦУ TEXT BOX - ЭТОТ МЕТОД ДОЛЖЕН БЫТЬ!
+    public TextBoxPage openTextBoxPage() {
+        open("https://demoqa.com/text-box");
+        return this;
+    }
+
+    public TextBoxPage setFullName(String fullName) {
+        fullNameInput.setValue(fullName);
+        return this;
+    }
+
+    public TextBoxPage setCurrentAddress(String currentAddress) {
+        currentAddressInput.setValue(currentAddress);
+        return this;
+    }
+
+    public TextBoxPage setPermanentAddress(String permanentAddress) {
+        permanentAddressInput.setValue(permanentAddress);
+        return this;
+    }
+
+    public TextBoxPage clickSubmit() {
+        textBoxSubmitButton.click();
+        return this;
+    }
+
+    public SelenideElement getOutput() {
+        return $("#output");
+    }
+
+    public SelenideElement getEmailField() {
+        return emailInput;
+    }
+
+    public SelenideElement getFullNameField() {
+        return fullNameInput;
+    }
+
+    public TextBoxPage fillTextBoxForm(String fullName, String email,
+                                       String currentAddress, String permanentAddress) {
+        setFullName(fullName)
+                .setEmail(email)
+                .setCurrentAddress(currentAddress)
+                .setPermanentAddress(permanentAddress);
+        return this;
     }
 }
