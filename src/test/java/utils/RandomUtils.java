@@ -88,13 +88,13 @@ public class RandomUtils {
             case "NCR":
                 return faker.options().option("Delhi", "Gurgaon", "Noida");
             case "Uttar Pradesh":
-                return faker.options().option("Agra", "Lucknow", "Kanpur", "Varanasi");
+                return faker.options().option("Agra", "Lucknow", "Kanpur"); // Убрал Varanasi
             case "Haryana":
-                return faker.options().option("Karnal", "Panipat", "Gurgaon", "Faridabad");
+                return faker.options().option("Karnal", "Panipat", "Gurgaon");
             case "Rajasthan":
-                return faker.options().option("Jaipur", "Jodhpur", "Udaipur", "Kota");
+                return faker.options().option("Jaipur", "Jodhpur", "Udaipur");
             default:
-                return faker.options().option("Delhi", "Gurgaon", "Noida");
+                return "Delhi";
         }
     }
 

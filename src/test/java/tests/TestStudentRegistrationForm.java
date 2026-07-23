@@ -56,6 +56,13 @@ public class TestStudentRegistrationForm extends TestBase {
                         address, state, city)
                 .submitForm();
 
+        // Добавьте небольшую паузу перед проверкой
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
         textBoxPage.getModal().verifyModalVisible();
 
         textBoxPage.getTable()

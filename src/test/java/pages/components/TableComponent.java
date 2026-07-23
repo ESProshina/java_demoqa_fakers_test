@@ -1,58 +1,69 @@
 package pages.components;
 
+import com.codeborne.selenide.SelenideElement;
+
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 
 public class TableComponent {
 
-    private final String tableSelector = ".table-responsive";
+    private final SelenideElement table = $(".table-responsive");
 
     public TableComponent verifyRow(String label, String expectedValue) {
-        $(tableSelector)
-                .$(byText(label))
+        table.find(byText(label))
                 .parent()
                 .shouldHave(text(expectedValue));
         return this;
     }
 
     public TableComponent verifyStudentName(String firstName, String lastName) {
-        return verifyRow("Student Name", firstName + " " + lastName);
+        verifyRow("Student Name", firstName + " " + lastName);
+        return this;
     }
 
     public TableComponent verifyStudentEmail(String email) {
-        return verifyRow("Student Email", email);
+        verifyRow("Student Email", email);
+        return this;
     }
 
     public TableComponent verifyGender(String gender) {
-        return verifyRow("Gender", gender);
+        verifyRow("Gender", gender);
+        return this;
     }
 
     public TableComponent verifyMobile(String mobile) {
-        return verifyRow("Mobile", mobile);
+        verifyRow("Mobile", mobile);
+        return this;
     }
 
     public TableComponent verifyDateOfBirth(String day, String month, String year) {
-        return verifyRow("Date of Birth", day + " " + month + "," + year);
+        verifyRow("Date of Birth", day + " " + month + "," + year);
+        return this;
     }
 
     public TableComponent verifySubjects(String subject) {
-        return verifyRow("Subjects", subject);
+        verifyRow("Subjects", subject);
+        return this;
     }
 
     public TableComponent verifyHobbies(String hobby) {
-        return verifyRow("Hobbies", hobby);
+        verifyRow("Hobbies", hobby);
+        return this;
     }
 
     public TableComponent verifyPicture(String pictureName) {
-        return verifyRow("Picture", pictureName);
+        verifyRow("Picture", pictureName);
+        return this;
     }
 
     public TableComponent verifyAddress(String address) {
-        return verifyRow("Address", address);
+        verifyRow("Address", address);
+        return this;
     }
 
     public TableComponent verifyStateAndCity(String state, String city) {
-        return verifyRow("State and City", state + " " + city);
+        verifyRow("State and City", state + " " + city);
+        return this;
     }
 }
