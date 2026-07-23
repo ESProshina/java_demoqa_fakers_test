@@ -1,14 +1,14 @@
 package tests;
 
-import com.codeborne.selenide.SelenideElement;  // Исправлено: codeborne
+import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pages.TextBoxPage;
 import utils.RandomUtils;
 
-import static com.codeborne.selenide.Condition.*;  // Исправлено: codeborne
-import static com.codeborne.selenide.Selenide.$;  // Исправлено: codeborne
-import static com.codeborne.selenide.Selenide.executeJavaScript;  // Исправлено: codeborne
+import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 public class TestStudentRegistrationForm extends TestBase {
 
@@ -45,6 +45,10 @@ public class TestStudentRegistrationForm extends TestBase {
         address = RandomUtils.getRandomAddress();
         state = RandomUtils.getRandomState();
         city = RandomUtils.getRandomCity(state);
+
+        System.out.println("Test data:");
+        System.out.println("State: " + state);
+        System.out.println("City: " + city);
     }
 
     @Test
@@ -56,12 +60,8 @@ public class TestStudentRegistrationForm extends TestBase {
                         address, state, city)
                 .submitForm();
 
-        // Добавьте небольшую паузу перед проверкой
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        // Ждем появления модального окна
+        sleep(1000);
 
         textBoxPage.getModal().verifyModalVisible();
 
@@ -86,6 +86,9 @@ public class TestStudentRegistrationForm extends TestBase {
                 .openPage()
                 .fillMandatoryFields(firstName, lastName, email, gender, mobileNumber)
                 .submitForm();
+
+        // Ждем появления модального окна
+        sleep(1000);
 
         textBoxPage.getModal().verifyModalVisible();
 
@@ -177,5 +180,13 @@ public class TestStudentRegistrationForm extends TestBase {
 
         boolean isFormValid = executeJavaScript("return document.querySelector('form').checkValidity();");
         assert !isFormValid : "Form should be invalid when gender not selected";
+    }
+
+    private void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }

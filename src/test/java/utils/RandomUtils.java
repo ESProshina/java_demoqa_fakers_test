@@ -82,17 +82,16 @@ public class RandomUtils {
         return faker.options().option("NCR", "Uttar Pradesh", "Haryana", "Rajasthan");
     }
 
-    // Генерация города
     public static String getRandomCity(String state) {
         switch (state) {
             case "NCR":
                 return faker.options().option("Delhi", "Gurgaon", "Noida");
             case "Uttar Pradesh":
-                return faker.options().option("Agra", "Lucknow", "Kanpur"); // Убрал Varanasi
+                return faker.options().option("Agra", "Lucknow"); // Убрал Kanpur
             case "Haryana":
-                return faker.options().option("Karnal", "Panipat", "Gurgaon");
+                return faker.options().option("Karnal", "Panipat");
             case "Rajasthan":
-                return faker.options().option("Jaipur", "Jodhpur", "Udaipur");
+                return faker.options().option("Jaipur", "Jodhpur");
             default:
                 return "Delhi";
         }

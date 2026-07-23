@@ -9,15 +9,15 @@ public class StateCityComponent {
     public void selectStateAndCity(String state, String city) {
         // Выбираем штат
         $("#state").click();
-        sleep(300);
+        sleep(500);
         $(byText(state)).shouldBe(visible).click();
 
         // Ждем загрузки городов
-        sleep(800);
+        sleep(1000);
 
         // Выбираем город
         $("#city").click();
-        sleep(300);
+        sleep(500);
         $(byText(city)).shouldBe(visible).click();
     }
 

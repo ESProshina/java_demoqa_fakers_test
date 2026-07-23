@@ -5,14 +5,13 @@ import pages.components.*;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 public class TextBoxPage {
 
-    // ============ ПОЛЯ ДЛЯ PRACTICE FORM (Регистрация студента) ============
+    // Поля формы регистрации студента (Practice Form)
     private final SelenideElement firstNameInput = $("#firstName");
     private final SelenideElement lastNameInput = $("#lastName");
     private final SelenideElement emailInput = $("#userEmail");
@@ -25,13 +24,14 @@ public class TextBoxPage {
     private final SelenideElement submitButton = $("#submit");
     private final SelenideElement pictureInput = $("#uploadPicture");
 
-    // ============ ПОЛЯ ДЛЯ TEXT BOX ФОРМЫ ============
+    // Поля для Text Box формы
     private final SelenideElement fullNameInput = $("#userName");
+    private final SelenideElement textBoxEmailInput = $("#userEmail");
     private final SelenideElement currentAddressInput = $("#currentAddress");
     private final SelenideElement permanentAddressInput = $("#permanentAddress");
     private final SelenideElement textBoxSubmitButton = $("#submit");
+    private final SelenideElement outputDiv = $("#output");
 
-    // ============ КОМПОНЕНТЫ ============
     private final CalendarComponent calendar = new CalendarComponent();
     private final ModalComponent modal = new ModalComponent();
     private final StateCityComponent stateCity = new StateCityComponent();
@@ -95,11 +95,13 @@ public class TextBoxPage {
     }
 
     public TextBoxPage setStateAndCity(String state, String city) {
+        stateInput.scrollTo();
         stateCity.selectStateAndCity(state, city);
         return this;
     }
 
     public TextBoxPage submitForm() {
+        submitButton.scrollTo();
         submitButton.click();
         return this;
     }
@@ -148,7 +150,6 @@ public class TextBoxPage {
 
     // ============ МЕТОДЫ ДЛЯ TEXT BOX ФОРМЫ ============
 
-    // ОТКРЫТЬ СТРАНИЦУ TEXT BOX - ЭТОТ МЕТОД ДОЛЖЕН БЫТЬ!
     public TextBoxPage openTextBoxPage() {
         open("https://demoqa.com/text-box");
         return this;
@@ -170,20 +171,29 @@ public class TextBoxPage {
     }
 
     public TextBoxPage clickSubmit() {
+        textBoxSubmitButton.scrollTo();
         textBoxSubmitButton.click();
         return this;
     }
 
     public SelenideElement getOutput() {
-        return $("#output");
+        return outputDiv;
     }
 
     public SelenideElement getEmailField() {
-        return emailInput;
+        return textBoxEmailInput;
     }
 
     public SelenideElement getFullNameField() {
         return fullNameInput;
+    }
+
+    public SelenideElement getCurrentAddressField() {
+        return currentAddressInput;
+    }
+
+    public SelenideElement getPermanentAddressField() {
+        return permanentAddressInput;
     }
 
     public TextBoxPage fillTextBoxForm(String fullName, String email,

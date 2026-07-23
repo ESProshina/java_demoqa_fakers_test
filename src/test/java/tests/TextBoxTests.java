@@ -33,7 +33,7 @@ public class TextBoxTests extends TestBase {
     @Test
     void successfulFillFormTest() {
         textBoxPage
-                .openTextBoxPage()  // Используем правильный метод для Text Box
+                .openTextBoxPage()
                 .setFullName(fullName)
                 .setEmail(email)
                 .setCurrentAddress(currentAddress)
